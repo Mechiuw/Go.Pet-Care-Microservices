@@ -1,5 +1,9 @@
 package main
 
-func main() {
+import (
+	"ginpet/src"
+)
 
+func main() {
+	src.RunApp()
 }

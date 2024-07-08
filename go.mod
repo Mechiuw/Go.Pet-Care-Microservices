@@ -1,4 +1,4 @@
-module ginintro
+module ginpet
 
 go 1.22.4
 
