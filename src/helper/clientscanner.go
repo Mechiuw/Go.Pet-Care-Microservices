@@ -5,7 +5,7 @@ import (
 	"ginpet/src/model"
 )
 
-func scanClient(rows *sql.Rows) []model.Client {
+func ScanClient(rows *sql.Rows) []model.Client {
 	clients := []model.Client{}
 	var err error
 
