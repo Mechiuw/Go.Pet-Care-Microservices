@@ -82,7 +82,7 @@ func DELETE_CLIENT(id string) (model.Client, error) {
 
 }
 
-func GET_CLIENT(id string) ([]model.Client, error) {
+func GET_ALL_CLIENT() ([]model.Client, error) {
 	sqlStatement := `SELECT * FROM client`
 
 	rows, err := connection.Query(sqlStatement)
@@ -96,4 +96,19 @@ func GET_CLIENT(id string) ([]model.Client, error) {
 
 	fmt.Println("successfully fetch client data ")
 	return clients, nil
+}
+
+func GET_CLIENT_ID(id string) (model.Client, error) {
+	sqlStatement := `SELECT * FROM client WHERE id =$1`
+
+	fetchedClient := model.Client{}
+	err := connection.QueryRow(sqlStatement, id).Scan(
+		&fetchedClient.Id, &fetchedClient.Name, &fetchedClient.ProfileNumber, &fetchedClient.Address, &fetchedClient.PhoneNumber, &fetchedClient.Email,
+	)
+	if err != nil {
+		return fetchedClient, fmt.Errorf("failed to fetch client response: %w", err)
+	}
+
+	fmt.Println("successfully fetch data")
+	return fetchedClient, nil
 }
