@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"ginpet/src/db"
 	"ginpet/src/model"
+	"strings"
 )
 
 var connection = db.Pool()
@@ -24,26 +25,34 @@ func CREATE_CLIENT(client model.Client) (model.Client, error) {
 		return model.Client{}, fmt.Errorf("failed to create client: %w", err)
 	}
 
+	defer connection.Close()
+
 	fmt.Println("successfully added data [201]")
 	return client, nil
 }
 
 func UPDATE_CLIENT(id string, updateClient map[string]string) (model.Client, error) {
-	sqlStatement := `UPDATE client SET $1=$2 WHERE id = $3;`
-	newPatchClient := model.Client{}
-	var col string
-	var val string
-	for k, v := range updateClient {
-		col = k
-		val = v
+	if len(updateClient) == 0 {
+		return model.Client{}, fmt.Errorf("no updates provided")
 	}
 
-	_, err := connection.Exec(sqlStatement, col, val, id)
+	columns := make([]string, 0, len(updateClient))
+	values := make([]interface{}, 0, len(updateClient))
+	for col, val := range updateClient {
+		columns = append(columns, fmt.Sprintf("%s = $%d", col, len(values)+1))
+		values = append(values, val)
+	}
+
+	values = append(values, id)
+
+	sqlStatement := fmt.Sprintf("UPDATE client SET %s WHERE id = '$%d';", strings.Join(columns, ", "), len(values))
+	_, err := connection.Exec(sqlStatement, values...)
 	if err != nil {
 		return model.Client{}, fmt.Errorf("failed to update client: %w", err)
 	}
 
 	getSqlStatement := `SELECT * FROM client where id =$1`
+	newPatchClient := model.Client{}
 	err = connection.QueryRow(getSqlStatement, id).Scan(
 		&newPatchClient.Id, &newPatchClient.Name, &newPatchClient.ProfileNumber, &newPatchClient.Address, &newPatchClient.PhoneNumber, &newPatchClient.Email,
 	)
