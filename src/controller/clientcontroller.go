@@ -23,7 +23,7 @@ func Create(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"data": createdClient})
+	c.JSON(http.StatusCreated, gin.H{"message": "successfully created client", "data": createdClient})
 }
 
 func Update(c *gin.Context) {
