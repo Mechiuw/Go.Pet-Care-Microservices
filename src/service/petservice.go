@@ -77,3 +77,15 @@ func GET_BY_ID_PET(id string) (model.Pet, error) {
 	return fetchedPet, nil
 
 }
+
+func GET_ALL_PET()([]model.Pet, error) {
+	sqlStatement := `SELECT * FROM pet`
+
+	rows, err := pet_connection.Query(sqlStatement)
+	if err != nil {
+		return []model.Pet{},fmt.Errorf("failed to fetch: %w",err)
+	}
+
+	defer rows.Close()
+	pets := helper.
+}
