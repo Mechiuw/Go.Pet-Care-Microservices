@@ -87,3 +87,18 @@ func GET_ALL_SERVICE_PROVIDER() ([]model.ServiceProvider, error) {
 	fmt.Println("successfully fetch data")
 	return sps, nil
 }
+
+func GET_BY_ID_SERVICE_PROVIDER(id string) (model.ServiceProvider, error) {
+	sqlStatement := `SELECT * FROM serviceprovider WHERE id= $1`
+
+	var sp model.ServiceProvider
+	err := serviceprovider_connection.QueryRow(sqlStatement, id).Scan(
+		&sp.Id, &sp.Name, &sp.ServiceType, &sp.ContactInfo, &sp.Location,
+	)
+	if err != nil {
+		return model.ServiceProvider{}, fmt.Errorf("failed to fetch service provider: %w", err)
+	}
+
+	fmt.Println("successfully fetch service provider")
+	return sp, nil
+}
