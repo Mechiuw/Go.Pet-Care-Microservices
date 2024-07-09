@@ -5,6 +5,5 @@ import (
 )
 
 func RunApp() {
-	router.CLIENT()
-	router.PET()
+	router.API_BUS()
 }
