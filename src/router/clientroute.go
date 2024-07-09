@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func create() {
+func CLIENT() {
 	router := gin.Default()
 
 	api := router.Group("/api")

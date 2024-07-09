@@ -1,5 +1,9 @@
 package src
 
-func RunApp() {
+import (
+	"ginpet/src/router"
+)
 
+func RunApp() {
+	router.CLIENT()
 }
