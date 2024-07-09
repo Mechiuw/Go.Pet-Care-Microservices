@@ -50,3 +50,17 @@ func UpdatePet(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "successfully update pet", "data": updatePet})
 }
+
+func DeletePet(c *gin.Context) {
+	id := c.Param("id")
+
+	_, err := service.DELETE_PET(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "successfully delete pet"})
+}
