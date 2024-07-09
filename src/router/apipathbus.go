@@ -20,11 +20,11 @@ func API_BUS() {
 		}
 		pet := api.Group("/pet")
 		{
-			pet.POST("/pet", controller.CreatePet)
-			pet.PUT("/pet/:id", controller.UpdatePet)
-			pet.DELETE("/pet/:id", controller.DeletePet)
-			pet.GET("/pet/all", controller.GetAllPet)
-			pet.GET("/pet/:id", controller.GetByIdPet)
+			pet.POST("/", controller.CreatePet)
+			pet.PUT("/:id", controller.UpdatePet)
+			pet.DELETE("/:id", controller.DeletePet)
+			pet.GET("/all", controller.GetAllPet)
+			pet.GET("/:id", controller.GetByIdPet)
 		}
 	}
 
