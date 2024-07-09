@@ -9,18 +9,17 @@ import (
 func PET() {
 	// api path http://localhost:8080/api/pet
 
-	router := gin.Default()
-	api := router.Group("/api")
+	router_pet := gin.Default()
+	api := router_pet.Group("/api")
 	{
 		pet := api.Group("/pet")
 		{
-			pet.POST("/", controller.CreatePet)
-			pet.PUT("/", controller.UpdatePet)
-			pet.DELETE("/:id", controller.DeletePet)
-			pet.GET("/all", controller.GetAllPet)
-			pet.GET("/:id", controller.GetByIdPet)
+			pet.POST("/pet", controller.CreatePet)
+			pet.PUT("/pet/:id", controller.UpdatePet)
+			pet.DELETE("/pet/:id", controller.DeletePet)
+			pet.GET("/pet/all", controller.GetAllPet)
+			pet.GET("/pet/:id", controller.GetByIdPet)
 		}
 	}
-
-	router.Run(":8080")
+	router_pet.Run(":8080")
 }

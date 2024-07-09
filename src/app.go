@@ -6,4 +6,5 @@ import (
 
 func RunApp() {
 	router.CLIENT()
+	router.PET()
 }

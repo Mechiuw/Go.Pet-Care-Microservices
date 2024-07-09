@@ -7,16 +7,19 @@ import (
 )
 
 func CLIENT() {
-	router := gin.Default()
+	router_client := gin.Default()
 
-	api := router.Group("/api")
+	api := router_client.Group("/api")
 	{
-		api.POST("/client", controller.Create)
-		api.PUT("/client/:id", controller.Update)
-		api.DELETE("/client/:id", controller.Delete)
-		api.GET("/client/all", controller.GetAll)
-		api.GET("/client/:id", controller.GetById)
+		client := api.Group("/client")
+		{
+			client.POST("/", controller.Create)
+			client.PUT("/:id", controller.Update)
+			client.DELETE("/:id", controller.Delete)
+			client.GET("/all", controller.GetAll)
+			client.GET("/:id", controller.GetById)
+		}
 	}
 
-	router.Run(":8080")
+	router_client.Run(":8080")
 }
