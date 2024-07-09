@@ -55,6 +55,19 @@ func UpdateSp(c *gin.Context) {
 	})
 
 }
-func DeleteSp(c *gin.Context)  {}
+
+func DeleteSp(c *gin.Context) {
+	id := c.Param("id")
+
+	_, err := service.DELETE_SERVICE_PROVIDER(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "successfully deleted data"})
+}
 func GetAllSp(c *gin.Context)  {}
 func GetByIdSp(c *gin.Context) {}
