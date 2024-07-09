@@ -8,13 +8,19 @@ import (
 )
 
 var pet_connection = db.Pool()
+var pet_validator = helper.NewValidator()
 
 func CREATE_PET(pet model.Pet) (model.Pet, error) {
 	sqlStatement := `INSERT INTO pet (id,ownerid,name,breed,age,medicalhistory) VALUES ($1,$2,$3,$4,$5,$6)`
 
+	err := pet_validator.ValidatePet(pet)
+	if err != nil {
+		return model.Pet{}, fmt.Errorf("validator error: %w", err)
+	}
+
 	var PetResponse model.Pet
 
-	_, err := pet_connection.Exec(sqlStatement, pet.Id, pet.OwnerId, pet.Name, pet.Breed, pet.Age, pet.MedicalHistory)
+	_, err = pet_connection.Exec(sqlStatement, pet.Id, pet.OwnerId, pet.Name, pet.Breed, pet.Age, pet.MedicalHistory)
 
 	if err != nil {
 		return model.Pet{}, fmt.Errorf("failed to create pet: %w", err)
@@ -34,7 +40,12 @@ func CREATE_PET(pet model.Pet) (model.Pet, error) {
 func UPDATE_PET(id string, pet model.Pet) (model.Pet, error) {
 	sqlStatement := `UPDATE pet SET ownerId=$1 ,name=$2, breed=$3, age=$4, medicalhistory=$5 WHERE id=$6`
 
-	_, err := pet_connection.Exec(sqlStatement, pet.OwnerId, pet.Name, pet.Breed, pet.Age, pet.MedicalHistory, id)
+	err := pet_validator.ValidatePet(pet)
+	if err != nil {
+		return model.Pet{}, fmt.Errorf("validaror error: %w", err)
+	}
+
+	_, err = pet_connection.Exec(sqlStatement, pet.OwnerId, pet.Name, pet.Breed, pet.Age, pet.MedicalHistory, id)
 	if err != nil {
 		return model.Pet{}, fmt.Errorf("failed to update pet: %w", err)
 	}
