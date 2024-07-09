@@ -26,6 +26,14 @@ func API_BUS() {
 			pet.GET("/all", controller.GetAllPet)
 			pet.GET("/:id", controller.GetByIdPet)
 		}
+		sp := api.Group("/service-provider")
+		{
+			sp.POST("/", controller.CreateSp)
+			sp.PUT("/:id", controller.UpdateSp)
+			sp.DELETE("/:id", controller.DeleteSp)
+			sp.GET("/all", controller.GetAllSp)
+			sp.GET(":/id", controller.GetByIdSp)
+		}
 	}
 
 	router_bus.Run(":8080")
