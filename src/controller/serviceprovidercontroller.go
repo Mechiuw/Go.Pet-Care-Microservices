@@ -80,4 +80,16 @@ func GetAllSp(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "successfully fetch service provider", "data": fetch})
 }
-func GetByIdSp(c *gin.Context) {}
+func GetByIdSp(c *gin.Context) {
+	id := c.Param("id")
+
+	fetch, err := service.GET_BY_ID_SERVICE_PROVIDER(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "successfully fetch service provider", "data": fetch})
+}
