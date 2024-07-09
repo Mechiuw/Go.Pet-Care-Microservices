@@ -17,6 +17,7 @@ func CREATE_CLIENT(client model.Client) (model.Client, error) {
 		connection.Exec(
 			sqlStatement,
 			client.Id,
+			client.Name,
 			client.ProfileNumber,
 			client.Address,
 			client.PhoneNumber,
@@ -25,8 +26,6 @@ func CREATE_CLIENT(client model.Client) (model.Client, error) {
 	if err != nil {
 		return model.Client{}, fmt.Errorf("failed to create client: %w", err)
 	}
-
-	defer connection.Close()
 
 	fmt.Println("successfully added data [201]")
 	return client, nil
