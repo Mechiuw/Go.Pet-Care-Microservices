@@ -60,3 +60,20 @@ func DELETE_PET(id string) (model.Pet, error) {
 	fmt.Println("successfully deleted pet")
 	return model.Pet{}, nil
 }
+
+func GET_BY_ID_PET(id string) (model.Pet, error) {
+	sqlStatement := `SELECT * FROM pet WHERE id= $1`
+
+	var fetchedPet model.Pet
+	err := pet_connection.QueryRow(sqlStatement, id).Scan(
+		&fetchedPet.Id, &fetchedPet.OwnerId, &fetchedPet.Name, &fetchedPet.Breed, &fetchedPet.Age, &fetchedPet.MedicalHistory,
+	)
+
+	if err != nil {
+		return model.Pet{}, fmt.Errorf("failed to fetch pet: %w", err)
+	}
+
+	fmt.Println("successfully fetch pet")
+	return fetchedPet, nil
+
+}
