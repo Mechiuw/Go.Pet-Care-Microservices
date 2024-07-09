@@ -32,29 +32,29 @@ func CREATE_CLIENT(client model.Client) (model.Client, error) {
 }
 
 func UPDATE_CLIENT(id string, updateClient map[string]string) (model.Client, error) {
-	//check if the updateClient map null or 0
+	// Check if the updateClient map is null or empty
 	if len(updateClient) == 0 {
 		return model.Client{}, fmt.Errorf("no updates provided")
 	}
 
-	//extract updateClient k and v map
+	// Extract updateClient key and value map
 	columns := make([]string, 0, len(updateClient))
 	values := make([]interface{}, 0, len(updateClient))
 	for col, val := range updateClient {
 		columns = append(columns, fmt.Sprintf("%s = $%d", col, len(values)+1))
 		values = append(values, val)
 	}
-	values = append(values, id)
+	values = append(values, id) // Add the id as the last parameter
 
-	//UPDATE SQL Statement here
-	sqlStatement := fmt.Sprintf("UPDATE client SET %s WHERE id = '$%d';", strings.Join(columns, ", "), len(values))
+	// UPDATE SQL Statement here
+	sqlStatement := fmt.Sprintf("UPDATE client SET %s WHERE id = $%d;", strings.Join(columns, ", "), len(values))
 	_, err := connection.Exec(sqlStatement, values...)
 	if err != nil {
 		return model.Client{}, fmt.Errorf("failed to update client: %w", err)
 	}
 
-	//GET SQL Statement here for response
-	getSqlStatement := `SELECT * FROM client where id =$1`
+	// GET SQL Statement here for response
+	getSqlStatement := `SELECT * FROM client where id = $1`
 	newPatchClient := model.Client{}
 	err = connection.QueryRow(getSqlStatement, id).Scan(
 		&newPatchClient.Id, &newPatchClient.Name, &newPatchClient.ProfileNumber, &newPatchClient.Address, &newPatchClient.PhoneNumber, &newPatchClient.Email,
@@ -63,7 +63,7 @@ func UPDATE_CLIENT(id string, updateClient map[string]string) (model.Client, err
 		return newPatchClient, fmt.Errorf("failed to fetch client response: %w", err)
 	}
 
-	//Response
+	// Response
 	fmt.Println("successfully updated data [200]")
 	return newPatchClient, nil
 }

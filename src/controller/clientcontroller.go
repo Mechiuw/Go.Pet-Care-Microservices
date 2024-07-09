@@ -36,6 +36,9 @@ func Update(c *gin.Context) {
 		return
 	}
 
+	// Remove id from the updatedData if it exists
+	delete(updatedData, "id")
+
 	updatedClient, err := service.UPDATE_CLIENT(id, updatedData)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

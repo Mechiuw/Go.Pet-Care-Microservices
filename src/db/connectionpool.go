@@ -36,6 +36,9 @@ func Init() {
 }
 
 func Pool() *sql.DB {
+	if db == nil {
+		Init()
+	}
 	return db
 }
 
