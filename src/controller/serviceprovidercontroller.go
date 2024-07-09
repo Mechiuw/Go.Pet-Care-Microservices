@@ -67,7 +67,17 @@ func DeleteSp(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "successfully deleted data"})
+	c.JSON(http.StatusOK, gin.H{"message": "successfully deleted service provider"})
 }
-func GetAllSp(c *gin.Context)  {}
+func GetAllSp(c *gin.Context) {
+	fetch, err := service.GET_ALL_SERVICE_PROVIDER()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "successfully fetch service provider", "data": fetch})
+}
 func GetByIdSp(c *gin.Context) {}
