@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"ginpet/src/db"
+	"ginpet/src/helper"
 	"ginpet/src/model"
 )
 
@@ -78,14 +79,17 @@ func GET_BY_ID_PET(id string) (model.Pet, error) {
 
 }
 
-func GET_ALL_PET()([]model.Pet, error) {
+func GET_ALL_PET() ([]model.Pet, error) {
 	sqlStatement := `SELECT * FROM pet`
 
 	rows, err := pet_connection.Query(sqlStatement)
 	if err != nil {
-		return []model.Pet{},fmt.Errorf("failed to fetch: %w",err)
+		return []model.Pet{}, fmt.Errorf("failed to fetch: %w", err)
 	}
 
 	defer rows.Close()
-	pets := helper.
+	pets := helper.ScanPet(rows)
+
+	fmt.Println("successfully fetch pets data")
+	return pets, nil
 }
