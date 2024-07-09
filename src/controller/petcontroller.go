@@ -78,3 +78,18 @@ func GetByIdPet(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "successsfully fetch pet", "fetched data": data})
 }
+
+func GetAllPet(c *gin.Context) {
+	data, err := service.GET_ALL_PET()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":      "successfully fetch all pet",
+		"fetched data": data,
+	})
+}
