@@ -70,5 +70,17 @@ func getById(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, client)
+	c.JSON(http.StatusOK, gin.H{"data": client})
+}
+
+func getAll(c *gin.Context) {
+	client, err := service.GET_ALL_CLIENT()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": client})
 }
