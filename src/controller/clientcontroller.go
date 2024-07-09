@@ -46,3 +46,16 @@ func update(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": updatedClient})
 }
+
+func delete(c *gin.Context) {
+	id := c.Param("id")
+	_, err := service.DELETE_CLIENT(id)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "successfully deleted data"})
+}
