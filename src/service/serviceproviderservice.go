@@ -73,17 +73,17 @@ func DELETE_SERVICE_PROVIDER(id string) (model.ServiceProvider, error) {
 	return model.ServiceProvider{}, nil
 }
 
-func GET_ALL_SERVICE_PROVIDER() ([]model.ServiceProvider,error){
+func GET_ALL_SERVICE_PROVIDER() ([]model.ServiceProvider, error) {
 	sqlStatement := `SELECT * FROM serviceprovider`
 
-	rows,err := serviceprovider_connection.Query(sqlStatement)
+	rows, err := serviceprovider_connection.Query(sqlStatement)
 	if err != nil {
-		return []model.ServiceProvider{},fmt.Errorf("failed to fetch service provider: %w",err)
+		return []model.ServiceProvider{}, fmt.Errorf("failed to fetch service provider: %w", err)
 	}
 
 	defer rows.Close()
-	sps := 
+	sps := helper.ScanSP(rows)
 
-
-	return ,nil
+	fmt.Println("successfully fetch data")
+	return sps, nil
 }
