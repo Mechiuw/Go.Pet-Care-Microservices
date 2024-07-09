@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func create(c *gin.Context) {
+func Create(c *gin.Context) {
 	var client model.Client
 	if err := c.BindJSON(&client); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -26,7 +26,7 @@ func create(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"data": createdClient})
 }
 
-func update(c *gin.Context) {
+func Update(c *gin.Context) {
 	id := c.Param("id")
 	var updatedData map[string]string
 	if err := c.BindJSON(&updatedData); err != nil {
@@ -47,7 +47,7 @@ func update(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": updatedClient})
 }
 
-func delete(c *gin.Context) {
+func Delete(c *gin.Context) {
 	id := c.Param("id")
 	_, err := service.DELETE_CLIENT(id)
 	if err != nil {
@@ -60,7 +60,7 @@ func delete(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "successfully deleted data"})
 }
 
-func getById(c *gin.Context) {
+func GetById(c *gin.Context) {
 	id := c.Param("id")
 	client, err := service.GET_CLIENT_ID(id)
 	if err != nil {
@@ -73,7 +73,7 @@ func getById(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": client})
 }
 
-func getAll(c *gin.Context) {
+func GetAll(c *gin.Context) {
 	client, err := service.GET_ALL_CLIENT()
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
