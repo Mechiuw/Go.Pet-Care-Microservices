@@ -3,15 +3,22 @@ package service
 import (
 	"fmt"
 	"ginpet/src/db"
+	"ginpet/src/helper"
 	"ginpet/src/model"
 )
 
 var serviceprovider_connection = db.Pool()
+var serviceprovider_validator = helper.NewValidator()
 
 func CREATE_SERVICE_PROVIDER(sp model.ServiceProvider) (model.ServiceProvider, error) {
 	sqlStatement := `INSERT INTO serviceprovider (id,name,servicetype,contactinfo,location) VALUES ($1,$2,$3,$4,$5)`
 
-	_, err := serviceprovider_connection.Exec(sqlStatement, sp.Id, sp.Name, sp.ServiceType, sp.ContactInfo, sp.Location)
+	err := serviceprovider_validator.ValidateSP(sp)
+	if err != nil {
+		return model.ServiceProvider{}, fmt.Errorf("validator err: %w", err)
+	}
+
+	_, err = serviceprovider_connection.Exec(sqlStatement, sp.Id, sp.Name, sp.ServiceType, sp.ContactInfo, sp.Location)
 
 	if err != nil {
 		return model.ServiceProvider{}, fmt.Errorf("failed to create service provider: %w", err)
@@ -32,7 +39,12 @@ func CREATE_SERVICE_PROVIDER(sp model.ServiceProvider) (model.ServiceProvider, e
 func UPDATE_SERVICE_PROVIDER(id string, sp model.ServiceProvider) (model.ServiceProvider, error) {
 	sqlStatement := `UPDATE serviceprovider SET name= $1, servicetype= $2, contactinfo= $3, location= $4 WHERE id= $5`
 
-	_, err := serviceprovider_connection.Exec(sqlStatement, sp.Name, sp.ServiceType, sp.ContactInfo, sp.Location, sp.Id)
+	err := serviceprovider_validator.ValidateSP(sp)
+	if err != nil {
+		return model.ServiceProvider{}, fmt.Errorf("validator err: %w", err)
+	}
+
+	_, err = serviceprovider_connection.Exec(sqlStatement, sp.Name, sp.ServiceType, sp.ContactInfo, sp.Location, sp.Id)
 
 	if err != nil {
 		return model.ServiceProvider{}, fmt.Errorf("failed to update service provider: %w", err)
@@ -48,4 +60,15 @@ func UPDATE_SERVICE_PROVIDER(id string, sp model.ServiceProvider) (model.Service
 
 	fmt.Println("successfully update service provider")
 	return SpResponse, nil
+}
+
+func DELETE_SERVICE_PROVIDER(id string) (model.ServiceProvider, error) {
+	sqlStatement := `DELETE FROM serviceprovider WHERE id= $1`
+
+	_, err := serviceprovider_connection.Exec(sqlStatement, id)
+	if err != nil {
+		return model.ServiceProvider{}, fmt.Errorf("failed to delete service provider: %w", err)
+	}
+
+	return model.ServiceProvider{}, nil
 }
