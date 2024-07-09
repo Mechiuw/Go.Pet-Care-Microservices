@@ -49,3 +49,14 @@ func UPDATE_PET(id string, pet model.Pet) (model.Pet, error) {
 	fmt.Println("successfully updated pet")
 	return PetResponse, nil
 }
+
+func DELETE_PET(id string) (model.Pet, error) {
+	sqlStatement := `DELETE FROM pet WHERE id= $1`
+
+	_, err := pet_connection.Exec(sqlStatement, id)
+	if err != nil {
+		return model.Pet{}, fmt.Errorf("failed to delete pet: %w", err)
+	}
+	fmt.Println("successfully deleted pet")
+	return model.Pet{}, nil
+}
