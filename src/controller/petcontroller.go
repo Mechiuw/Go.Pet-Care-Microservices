@@ -54,7 +54,7 @@ func UpdatePet(c *gin.Context) {
 func DeletePet(c *gin.Context) {
 	id := c.Param("id")
 
-	_, err := service.DELETE_PET(id)
+	data, err := service.DELETE_PET(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -62,5 +62,19 @@ func DeletePet(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "successfully delete pet"})
+	c.JSON(http.StatusOK, gin.H{"message": "successfully delete pet", "removed data": data})
+}
+
+func GetByIdPet(c *gin.Context) {
+	id := c.Param("id")
+
+	data, err := service.GET_BY_ID_PET(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "successsfully fetch pet", "fetched data": data})
 }
