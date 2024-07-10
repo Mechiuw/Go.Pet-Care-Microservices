@@ -70,3 +70,20 @@ func DeleteReview(c *gin.Context) {
 		"data":    deleteServiceReview,
 	})
 }
+
+func GetReviewById(c *gin.Context) {
+	id := c.Param("id")
+
+	fetchReview, err := service.GET_BY_ID_REVIEW(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "successfully fetch review",
+		"data":    fetchReview,
+	})
+}
