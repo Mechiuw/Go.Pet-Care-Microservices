@@ -81,3 +81,17 @@ func GET_BY_ID_REVIEW(id string) (model.Review, error) {
 	fmt.Println("successfully delete review")
 	return fetchedReview, nil
 }
+
+func GET_ALL_REVIEW() ([]model.Review, error) {
+	sqlStatement := `SELECT * FROM review`
+
+	rows, err := review_connection.Query(sqlStatement)
+
+	if err != nil {
+		return []model.Review{}, fmt.Errorf("failed to fetch review: %w", err)
+	}
+
+	reviews := helper.ScanReview
+
+	defer rows.Close()
+}
