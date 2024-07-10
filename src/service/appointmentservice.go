@@ -87,3 +87,23 @@ func GET_ALL_APPOINTMENT() ([]model.Appointment, error) {
 	fmt.Println("successfully fetch all appointment")
 	return apps, nil
 }
+
+func GET_BY_ID_APPOINTMENT(id string) (model.Appointment, error) {
+	sqlStatement := `SELECT * FROM appointment WHERE id=$1`
+
+	fetchedAppointment := model.Appointment{}
+	err := appointment_connection.QueryRow(sqlStatement, id).Scan(
+		&fetchedAppointment.Id,
+		&fetchedAppointment.PetId,
+		&fetchedAppointment.ServiceProviderId,
+		&fetchedAppointment.ServiceType,
+		&fetchedAppointment.ServiceTime,
+	)
+
+	if err != nil {
+		return model.Appointment{}, fmt.Errorf("failed to fetch appointment: %w", err)
+	}
+
+	fmt.Println("successfully fetch appointment")
+	return fetchedAppointment, nil
+}
