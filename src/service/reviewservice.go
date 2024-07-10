@@ -31,3 +31,25 @@ func CREATE_REVIEW(review model.Review) (model.Review, error) {
 	}
 	return reviewResponse, nil
 }
+
+func UPDATE_REVIEW(id string, review model.Review) (model.Review, error) {
+	sqlStatement := `UPDATE review SET appointmentid=$1 , rating=$2, reviewText=$3, WHERE id=$4`
+
+	err := validator.ValidateReview(review)
+	if err != nil {
+		return model.Review{}, fmt.Errorf("validation error: %w", err)
+	}
+
+	_, err = review_connection.Exec(sqlStatement, review.Id, review.Rating, review.ReviewText, id)
+	if err != nil {
+		return model.Review{}, fmt.Errorf("failed to update review: %w", &err)
+	}
+
+	reviewResponse := model.Review{
+		Id:            review.Id,
+		AppointmentId: review.AppointmentId,
+		Rating:        review.Rating,
+		ReviewText:    review.ReviewText,
+	}
+	return reviewResponse, nil
+}
