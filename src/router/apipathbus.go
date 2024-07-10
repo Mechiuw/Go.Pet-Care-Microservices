@@ -38,7 +38,7 @@ func API_BUS() {
 		{
 			app.POST("/", controller.CreateAppointment)
 			app.PUT("/:id", controller.UpdateAppointment)
-			app.DELETE("/:id", controller.)
+			app.DELETE("/:id", controller.DeleteAppointment)
 			app.GET("/all", controller.)
 			app.GET("/:id", controller.)
 		}

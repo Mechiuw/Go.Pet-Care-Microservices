@@ -57,3 +57,20 @@ func UpdateAppointment(c *gin.Context) {
 	})
 
 }
+
+func DeleteAppointment(c *gin.Context) {
+	id := c.Param("id")
+
+	deleteApp, err := service.DELETE_APPOINTMENT(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "successfully delete appointment",
+		"data":    deleteApp,
+	})
+}
