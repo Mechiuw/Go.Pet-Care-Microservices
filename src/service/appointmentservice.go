@@ -60,3 +60,15 @@ func UPDATE_APPOINTMENT(id string, app model.Appointment) (model.Appointment, er
 	fmt.Println("successfully update appointment")
 	return appResponse, nil
 }
+
+func DELETE_APPOINTMENT(id string) (model.Appointment, error) {
+	sqlStatement := `DELETE FROM appointment WHERE id= $1`
+
+	_, err := appointment_connection.Exec(sqlStatement, id)
+	if err != nil {
+		return model.Appointment{}, fmt.Errorf("failed to delete appointment: %w", err)
+	}
+
+	fmt.Println("successfully delete appointment")
+	return model.Appointment{}, nil
+}
