@@ -90,3 +90,19 @@ func GetByIDAppointment(c *gin.Context) {
 		"data":    app,
 	})
 }
+
+func GetAllAppointment(c *gin.Context) {
+	app, err := service.GET_ALL_APPOINTMENT()
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "successfully fetch appointment",
+		"data":    app,
+	})
+}
