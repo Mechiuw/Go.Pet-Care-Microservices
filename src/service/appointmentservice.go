@@ -72,3 +72,16 @@ func DELETE_APPOINTMENT(id string) (model.Appointment, error) {
 	fmt.Println("successfully delete appointment")
 	return model.Appointment{}, nil
 }
+
+func GET_ALL_APPOINTMENT() ([]model.Appointment, error) {
+	sqlStatement := `SELECT * FROM appointment`
+
+	rows, err := appointment_connection.Query(sqlStatement)
+	if err != nil {
+		return []model.Appointment{}, fmt.Errorf("failed to fetch appointment: %w", err)
+	}
+
+	apps := helper.Scan
+	defer rows.Close()
+
+}
