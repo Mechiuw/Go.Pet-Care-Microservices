@@ -54,3 +54,19 @@ func UpdateReview(c *gin.Context) {
 		"data":    updateReview,
 	})
 }
+
+func DeleteReview(c *gin.Context) {
+	id := c.Param("id")
+	deleteServiceReview, err := service.DELETE_REVIEW(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "successfully deleted review",
+		"data":    deleteServiceReview,
+	})
+}
