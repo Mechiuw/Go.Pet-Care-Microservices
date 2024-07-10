@@ -42,14 +42,14 @@ func API_BUS() {
 			app.GET("/all", controller.GetAllAppointment)
 			app.GET("/:id", controller.GetByIDAppointment)
 		}
-		// review := api.Group("/review")
-		// {
-		// 	review.POST("/", controller.)
-		// 	review.PUT("/:id", controller.)
-		// 	review.DELETE("/:id", controller.)
-		// 	review.GET("/all", controller.)
-		// 	review.GET("/:id", controller.)
-		// }
+		review := api.Group("/review")
+		{
+			review.POST("/", controller.CreateReview)
+			review.PUT("/:id", controller.UpdateReview)
+			review.DELETE("/:id", controller.DeleteReview)
+			review.GET("/all", controller.GetAllReview)
+			review.GET("/:id", controller.GetReviewById)
+		}
 	}
 
 	router_bus.Run(":8080")
