@@ -87,3 +87,18 @@ func GetReviewById(c *gin.Context) {
 		"data":    fetchReview,
 	})
 }
+
+func GetAllReview(c *gin.Context) {
+	fetchReview, err := service.GET_ALL_REVIEW()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "successfully fetch review",
+		"data":    fetchReview,
+	})
+}
