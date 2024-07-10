@@ -68,3 +68,16 @@ func DELETE_REVIEW(id string) (model.Review, error) {
 	fmt.Println("successfully delete review")
 	return model.Review{}, nil
 }
+
+func GET_BY_ID_REVIEW(id string) (model.Review, error) {
+	sqlStatement := `SELECT * FROM review WHERE id=$1`
+	fetchedReview := model.Review{}
+
+	err := connection.QueryRow(sqlStatement, id).Scan(&fetchedReview.Id, &fetchedReview.AppointmentId, &fetchedReview.Rating, &fetchedReview.ReviewText)
+	if err != nil {
+		return model.Review{}, fmt.Errorf("failed to fetch review: %w", err)
+	}
+
+	fmt.Println("successfully delete review")
+	return fetchedReview, nil
+}
