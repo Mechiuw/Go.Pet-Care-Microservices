@@ -91,7 +91,8 @@ func GET_ALL_REVIEW() ([]model.Review, error) {
 		return []model.Review{}, fmt.Errorf("failed to fetch review: %w", err)
 	}
 
-	reviews := helper.ScanReview
+	reviews := helper.ScanReview(rows)
 
 	defer rows.Close()
+	return reviews, nil
 }
