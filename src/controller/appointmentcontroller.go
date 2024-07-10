@@ -74,3 +74,19 @@ func DeleteAppointment(c *gin.Context) {
 		"data":    deleteApp,
 	})
 }
+
+func GetByIDAppointment(c *gin.Context) {
+	id := c.Param("id")
+	app, err := service.GET_BY_ID_APPOINTMENT(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "successfully fetch appointment",
+		"data":    app,
+	})
+}

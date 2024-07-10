@@ -39,8 +39,8 @@ func API_BUS() {
 			app.POST("/", controller.CreateAppointment)
 			app.PUT("/:id", controller.UpdateAppointment)
 			app.DELETE("/:id", controller.DeleteAppointment)
-			app.GET("/all", controller.)
-			app.GET("/:id", controller.)
+			app.GET("/all", controller.GetByIDAppointment)
+			app.GET("/:id", controller.GetByIDAppointment)
 		}
 		review := api.Group("/review")
 		{
