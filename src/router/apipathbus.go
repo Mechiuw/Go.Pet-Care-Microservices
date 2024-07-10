@@ -32,7 +32,7 @@ func API_BUS() {
 			sp.PUT("/:id", controller.UpdateSp)
 			sp.DELETE("/:id", controller.DeleteSp)
 			sp.GET("/all", controller.GetAllSp)
-			sp.GET(":/id", controller.GetByIdSp)
+			sp.GET("/:id", controller.GetByIdSp)
 		}
 	}
 

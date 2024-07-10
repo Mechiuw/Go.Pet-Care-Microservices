@@ -31,3 +31,7 @@ func (v *Validator) ValidateSP(sp model.ServiceProvider) error {
 func (v *Validator) ValidateReview(review model.Review) error {
 	return v.validate.Struct(review)
 }
+
+func (v *Validator) ValidateAppointment(app model.Appointment) error {
+	return v.validate.Struct(app)
+}
