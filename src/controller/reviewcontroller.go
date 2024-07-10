@@ -30,3 +30,27 @@ func CreateReview(c *gin.Context) {
 		"message": "successfully created review", "data": createReview,
 	})
 }
+
+func UpdateReview(c *gin.Context) {
+	id := c.Param("id")
+	review := model.Review{}
+	if err := c.BindJSON(&review); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	updateReview, err := service.UPDATE_REVIEW(id, review)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "successfully updated review",
+		"data":    updateReview,
+	})
+}
