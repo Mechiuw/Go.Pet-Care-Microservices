@@ -34,6 +34,22 @@ func API_BUS() {
 			sp.GET("/all", controller.GetAllSp)
 			sp.GET("/:id", controller.GetByIdSp)
 		}
+		app := api.Group("/appointment")
+		{
+			app.POST("/", controller.)
+			app.PUT("/:id", controller.)
+			app.DELETE("/:id", controller.)
+			app.GET("/all", controller.)
+			app.GET("/:id", controller.)
+		}
+		review := api.Group("/review")
+		{
+			review.POST("/", controller.)
+			review.PUT("/:id", controller.)
+			review.DELETE("/:id", controller.)
+			review.GET("/all", controller.)
+			review.GET("/:id", controller.)
+		}
 	}
 
 	router_bus.Run(":8080")
