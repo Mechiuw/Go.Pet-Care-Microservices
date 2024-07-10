@@ -36,8 +36,8 @@ func API_BUS() {
 		}
 		app := api.Group("/appointment")
 		{
-			app.POST("/", controller.)
-			app.PUT("/:id", controller.)
+			app.POST("/", controller.CreateAppointment)
+			app.PUT("/:id", controller.UpdateAppointment)
 			app.DELETE("/:id", controller.)
 			app.GET("/all", controller.)
 			app.GET("/:id", controller.)
