@@ -29,6 +29,8 @@ func CREATE_REVIEW(review model.Review) (model.Review, error) {
 		Rating:        review.Rating,
 		ReviewText:    review.ReviewText,
 	}
+
+	fmt.Println("successfully create review")
 	return reviewResponse, nil
 }
 
@@ -42,7 +44,7 @@ func UPDATE_REVIEW(id string, review model.Review) (model.Review, error) {
 
 	_, err = review_connection.Exec(sqlStatement, review.Id, review.Rating, review.ReviewText, id)
 	if err != nil {
-		return model.Review{}, fmt.Errorf("failed to update review: %w", &err)
+		return model.Review{}, fmt.Errorf("failed to update review: %w", err)
 	}
 
 	reviewResponse := model.Review{
@@ -51,5 +53,18 @@ func UPDATE_REVIEW(id string, review model.Review) (model.Review, error) {
 		Rating:        review.Rating,
 		ReviewText:    review.ReviewText,
 	}
+	fmt.Println("successfully update review")
 	return reviewResponse, nil
+}
+
+func DELETE_REVIEW(id string) (model.Review, error) {
+	sqlStatement := `DELETE * FROM review WHERE id=$1`
+
+	_, err := review_connection.Exec(sqlStatement, id)
+	if err != nil {
+		return model.Review{}, fmt.Errorf("failed to delete review: %w", err)
+	}
+
+	fmt.Println("successfully delete review")
+	return model.Review{}, nil
 }
