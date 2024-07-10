@@ -81,7 +81,9 @@ func GET_ALL_APPOINTMENT() ([]model.Appointment, error) {
 		return []model.Appointment{}, fmt.Errorf("failed to fetch appointment: %w", err)
 	}
 
-	apps := helper.Scan
+	apps := helper.ScanAppointment(rows)
 	defer rows.Close()
 
+	fmt.Println("successfully fetch all appointment")
+	return apps, nil
 }
